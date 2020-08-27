@@ -4,6 +4,9 @@ import SpeechRecognition, {
 } from "react-speech-recognition";
 import axios from "axios";
 
+import Mic from "./components/Mic/Mic";
+import Article from "./components/Article/Article";
+
 import speak from "./utils/speak";
 import "./App.css";
 
@@ -12,7 +15,6 @@ let api_url =
 
 const App = () => {
   const [articles, setArticles] = useState([]);
-
   const commands = [
     {
       command: "Arată cele mai noi știri",
@@ -20,35 +22,47 @@ const App = () => {
         const res = await axios.get(api_url);
         const { data } = res;
         const { articles } = data;
+        //console.log(articles);
         speak("acestea sunt rezultatele");
         setArticles(articles);
+      },
+    },
+    {
+      command: "deschide articolul *",
+      callback: (number) => {
+        number = +number;
+        let article = null;
+        articles.forEach((art, i) => {
+          if (number === i + 1) {
+            article = art;
+          }
+        });
+        if (!article || !article.url) {
+          speak("Nu se poate deschide acest articol");
+          return;
+        }
+        window.open(article.url, "_blank");
       },
     },
   ];
   const { transcript } = useSpeechRecognition({ commands });
 
   if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
-    return null;
+    alert("eroare!!");
   }
 
   return (
     <div className="app">
       <div className="header"></div>
-      <div className="articles"></div>
-      <div className="mic">
-        {transcript && <p>{transcript}</p>}
-        <div
-          className="mic-btn"
-          onClick={() =>
-            SpeechRecognition.startListening({ language: "ro-RO" })
-          }
-        >
-          <img
-            src="https://img.icons8.com/ios-filled/50/000000/microphone.png"
-            alt="mic"
-          />
-        </div>
+      <div className="articles">
+        {articles.map((art, i) => (
+          <Article article={art} i={i + 1} />
+        ))}
       </div>
+      <Mic
+        transcript={transcript}
+        startListening={SpeechRecognition.startListening}
+      />
     </div>
   );
 };
