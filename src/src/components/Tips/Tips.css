@@ -1,0 +1,16 @@
+.tips-container {
+  width: 80%;
+  height: 150px;
+  background-color: rgb(124, 162, 206);
+}
+.tips-ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 1rem;
+  list-style-type: none;
+}
+.tip {
+  font-size: 1.5rem;
+}

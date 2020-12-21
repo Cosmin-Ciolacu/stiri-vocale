@@ -3,13 +3,49 @@
   padding: 0;
   box-sizing: border-box;
 }
-.app {
-  height: 100vh;
+.body {
+  height: 100%;
+  overflow: auto;
 }
+/* .app {
+  height: 100vh;
+} */
 
 .articles {
   padding: 2rem;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 2.5rem;
+}
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
+}
+.header .tips {
+  margin-top: 50;
+}
+
+@media only screen and (min-width: 600px) {
+  .articles {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+@media only screen and (min-width: 768px) {
+  .articles {
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 1.25rem;
+  }
+}
+@media only screen and (min-width: 992px) {
+  .articles {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+@media only screen and (min-width: 1200px) {
+  .articles {
+    grid-template-columns: repeat(5, 1fr);
+  }
 }
